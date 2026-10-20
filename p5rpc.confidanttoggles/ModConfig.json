@@ -1,0 +1,26 @@
+{
+  "ModId": "p5rpc.confidanttoggles",
+  "ModName": "Confidant Ability & Showtime Toggles",
+  "ModAuthor": "alexi",
+  "ModVersion": "1.1.1",
+  "ModDescription": "Switch each confidant ability, each Showtime and Futaba's All-Out Attack takeover on or off from this mod's configuration. A disabled one stays disabled even if you unlock it later, and works again as soon as you switch it back on. Your save data is never modified.",
+  "ModDll": "p5rpc.confidanttoggles.dll",
+  "ModIcon": "Preview.png",
+  "ModR2RManagedDll32": "x86/p5rpc.confidanttoggles.dll",
+  "ModR2RManagedDll64": "x64/p5rpc.confidanttoggles.dll",
+  "ModNativeDll32": "",
+  "ModNativeDll64": "",
+  "IsLibrary": false,
+  "ReleaseMetadataFileName": "p5rpc.confidanttoggles.ReleaseMetadata.json",
+  "PluginData": {},
+  "IsUniversalMod": false,
+  "ModDependencies": [
+    "reloaded.sharedlib.hooks",
+    "Reloaded.Memory.SigScan.ReloadedII"
+  ],
+  "OptionalDependencies": [],
+  "SupportedAppId": [
+    "p5r.exe"
+  ],
+  "ProjectUrl": ""
+}

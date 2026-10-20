@@ -1,0 +1,26 @@
+{
+  "ModId": "p5rpc.quietregen",
+  "ModName": "Quiet Turn-Start Recovery",
+  "ModAuthor": "alexi",
+  "ModVersion": "1.0.0",
+  "ModDescription": "Silences the sound played when HP or SP is restored at the start of a turn by abilities (Regenerate, Invigorate, Holy Whisper, Holy Embrace, Heat Up...) or accessories. The recovery itself still happens.",
+  "ModDll": "p5rpc.quietregen.dll",
+  "ModIcon": "Preview.png",
+  "ModR2RManagedDll32": "x86/p5rpc.quietregen.dll",
+  "ModR2RManagedDll64": "x64/p5rpc.quietregen.dll",
+  "ModNativeDll32": "",
+  "ModNativeDll64": "",
+  "IsLibrary": false,
+  "ReleaseMetadataFileName": "p5rpc.quietregen.ReleaseMetadata.json",
+  "PluginData": {},
+  "IsUniversalMod": false,
+  "ModDependencies": [
+    "reloaded.sharedlib.hooks",
+    "Reloaded.Memory.SigScan.ReloadedII"
+  ],
+  "OptionalDependencies": [],
+  "SupportedAppId": [
+    "p5r.exe"
+  ],
+  "ProjectUrl": ""
+}

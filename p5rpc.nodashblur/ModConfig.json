@@ -1,0 +1,26 @@
+{
+  "ModId": "p5rpc.nodashblur",
+  "ModName": "No Sprint Blur",
+  "ModAuthor": "alexi",
+  "ModVersion": "1.1.0",
+  "ModDescription": "Removes the radial blur and the washed-out colours of the sprint effect. The white speed lines and the camera's FOV change stay as they are. Optionally does the same for the target-point leap.",
+  "ModDll": "p5rpc.nodashblur.dll",
+  "ModIcon": "Preview.png",
+  "ModR2RManagedDll32": "x86/p5rpc.nodashblur.dll",
+  "ModR2RManagedDll64": "x64/p5rpc.nodashblur.dll",
+  "ModNativeDll32": "",
+  "ModNativeDll64": "",
+  "IsLibrary": false,
+  "ReleaseMetadataFileName": "p5rpc.nodashblur.ReleaseMetadata.json",
+  "PluginData": {},
+  "IsUniversalMod": false,
+  "ModDependencies": [
+    "reloaded.sharedlib.hooks",
+    "Reloaded.Memory.SigScan.ReloadedII"
+  ],
+  "OptionalDependencies": [],
+  "SupportedAppId": [
+    "p5r.exe"
+  ],
+  "ProjectUrl": ""
+}
