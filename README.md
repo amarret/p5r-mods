@@ -24,8 +24,10 @@ touches game files or save data.
 The mods find the game code by byte signature at start-up. They target the current Steam `P5R.exe`; if an update
 moves the code, the Reloaded log says which part could not be found and that part stays vanilla.
 
-## Building
+## Source code and building
 
+Each mod's full source code is in its folder here, and also on the
+[Releases page](https://github.com/amarret/p5r-mods/releases) as `<mod id>-<version>-source.zip` next to its install zip.
 Each folder is a .NET 9 project (`net9.0-windows`):
 
 ```
