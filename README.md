@@ -26,9 +26,7 @@ moves the code, the Reloaded log says which part could not be found and that par
 
 ## Source code and building
 
-Each mod's full source code is in its folder here, and also on the
-[Releases page](https://github.com/amarret/p5r-mods/releases) as `<mod id>-<version>-source.zip` next to its install zip.
-Each folder is a .NET 9 project (`net9.0-windows`):
+Each mod's full source code is in its folder here. Each folder is a .NET 9 project (`net9.0-windows`):
 
 ```
 cd p5rpc.quietregen
