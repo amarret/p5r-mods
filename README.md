@@ -1,8 +1,7 @@
 # Persona 5 Royal (PC) mods
 
 Small [Reloaded-II](https://github.com/Reloaded-Project/Reloaded-II) code mods for the Steam version of
-Persona 5 Royal. Each one has its own folder, README and configuration window in Reloaded-II, and none of them
-touches game files or save data.
+Persona 5 Royal. Made by Claude by reverse engineering the P5R executable, wild stuff.
 
 | Mod | Version | What it does |
 | --- | --- | --- |
