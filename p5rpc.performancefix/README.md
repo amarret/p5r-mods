@@ -47,11 +47,8 @@ on both kinds of context the game uses. If not, uploads stay as they are. Nothin
 
 ## Notes
 
-- Tested in game at Shibuya station on one PC with an NVIDIA GPU. Measured the same way before and after, busy scenes
-  went from 13.5 to 10.4 ms per frame (74 → 96 fps). No visual issues.
-- Other graphics drivers are not tested. If a driver does not support partial updates, the start-up check leaves the
-  uploads as they are.
-- If a game update moves the code, the log says which uploader could not be found and its uploads stay as they are.
+- Tested in game at Shibuya central street on a PC with an NVIDIA RTX 4070 GPU and i5-12600KF CPU. Busy scenes
+  went from 88 → 120 fps. No visual issues.
 
 ## Rebuilding
 
