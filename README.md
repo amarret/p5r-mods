@@ -9,6 +9,7 @@ Persona 5 Royal. Made by Claude by reverse engineering the P5R executable, wild 
 | [Quiet Navigator (Battle)](p5rpc.quietnavigator) | 1.3.0 | Silences chosen navigator battle lines (voice and dialogue window) by the event that triggers them: critical hits, knockdowns, weakness comments when analysing, Baton Passes. Per navigator. |
 | [No Sprint Blur](p5rpc.nodashblur) | 1.1.0 | Removes the radial blur and washed-out colours while sprinting; keeps the speed lines and the FOV change. |
 | [Quiet Turn-Start Recovery](p5rpc.quietregen) | 1.0.0 | Silences the sound played when HP/SP is restored at the start of a turn by abilities (Regenerate, Invigorate...) or accessories. |
+| [Lean Rendering](p5rpc.cbtrim) | 0.2.1 | Raises the frame rate in crowded places such as Shibuya station: the renderer uploads only the shader constants it filled for each draw, instead of whole 7 KB buffers. Looks the same. |
 
 > Each mod's README says how far it has been tested; mods not yet tested in game say so. Please report anything odd.
 
