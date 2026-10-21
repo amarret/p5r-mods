@@ -1,7 +1,7 @@
 {
   "ModId": "p5rpc.quietnavigator",
   "ModName": "Quiet Navigator (Battle)",
-  "ModAuthor": "alexi",
+  "ModAuthor": "Zelkin",
   "ModVersion": "1.3.0",
   "ModDescription": "Drops chosen navigator battle lines before they are voiced or shown in the dialogue window, for Morgana, Makoto, Futaba and Akechi. Choose by battle event: critical hits, enemies knocked down, Baton Passes, and the weakness comments when an enemy is analysed. Every other line plays as usual.",
   "ModDll": "p5rpc.quietnavigator.dll",
