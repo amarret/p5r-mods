@@ -1,12 +1,12 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using p5rpc.cbtrim.Configuration;
-using p5rpc.cbtrim.Template;
+using p5rpc.performancefix.Configuration;
+using p5rpc.performancefix.Template;
 using Reloaded.Memory.SigScan.ReloadedII.Interfaces;
 using Reloaded.Mod.Interfaces;
 using IReloadedHooks = Reloaded.Hooks.ReloadedII.Interfaces.IReloadedHooks;
 
-namespace p5rpc.cbtrim;
+namespace p5rpc.performancefix;
 
 /// <summary>
 /// Makes the renderer upload only the part of each shader constant buffer it actually filled, instead of the whole

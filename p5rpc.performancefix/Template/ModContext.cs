@@ -1,8 +1,8 @@
 using Reloaded.Mod.Interfaces;
 using IReloadedHooks = Reloaded.Hooks.ReloadedII.Interfaces.IReloadedHooks;
-using p5rpc.cbtrim.Configuration;
+using p5rpc.performancefix.Configuration;
 
-namespace p5rpc.cbtrim.Template;
+namespace p5rpc.performancefix.Template;
 
 /// <summary>
 /// Represents information passed in from the mod loader template to the implementing mod.

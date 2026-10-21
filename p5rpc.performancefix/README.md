@@ -1,4 +1,4 @@
-# Lean Rendering (P5R PC, Reloaded-II)
+# P5R Performance Fix (PC, Reloaded-II)
 
 Improves the frame rate in busy places like Shibuya station, where the game's single "render" thread can't keep up.
 Nothing on screen changes.
@@ -16,9 +16,9 @@ each upload was old data nobody asked for.
 
 ## Install
 
-1. Download `p5rpc.cbtrim-<version>.zip` from the [Releases page](https://github.com/amarret/p5r-mods/releases)
+1. Download `p5rpc.performancefix-<version>.zip` from the [Releases page](https://github.com/amarret/p5r-mods/releases)
    and extract it into `Reloaded-II\Mods`.
-2. In Reloaded-II, select Persona 5 Royal and tick **Lean Rendering**. It needs
+2. In Reloaded-II, select Persona 5 Royal and tick **P5R Performance Fix**. It needs
    `Reloaded.Memory.SigScan.ReloadedII` (and lists `reloaded.sharedlib.hooks`); if they are missing, Reloaded-II
    offers to download them.
 3. Right-click the mod → **Configure Mod** to switch it off or on. Changes apply straight away, so you can compare
@@ -59,4 +59,4 @@ on both kinds of context the game uses. If not, uploads stay as they are. Nothin
 dotnet build -c Release
 ```
 
-The output goes to `..\dist\p5rpc.cbtrim`.
+The output goes to `..\dist\p5rpc.performancefix`.

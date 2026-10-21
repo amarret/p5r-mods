@@ -1,7 +1,7 @@
 using Reloaded.Mod.Interfaces;
-using p5rpc.cbtrim.Configuration;
+using p5rpc.performancefix.Configuration;
 
-namespace p5rpc.cbtrim.Template.Configuration;
+namespace p5rpc.performancefix.Template.Configuration;
 
 public class Configurator : IConfiguratorV3
 {

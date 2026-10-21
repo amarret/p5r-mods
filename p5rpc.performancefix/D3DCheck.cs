@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 
-namespace p5rpc.cbtrim;
+namespace p5rpc.performancefix;
 
 /// <summary>
 /// Checks, on a throwaway device, that partial constant-buffer updates are safe to use: the driver reports

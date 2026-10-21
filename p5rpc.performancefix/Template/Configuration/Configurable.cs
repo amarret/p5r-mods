@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace p5rpc.cbtrim.Template.Configuration;
+namespace p5rpc.performancefix.Template.Configuration;
 
 public class Configurable<TParentType> : IUpdatableConfigurable where TParentType : Configurable<TParentType>, new()
 {

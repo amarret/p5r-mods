@@ -1,6 +1,6 @@
 using System.Diagnostics;
 
-namespace p5rpc.cbtrim.Template.Configuration;
+namespace p5rpc.performancefix.Template.Configuration;
 
 public class Utilities
 {

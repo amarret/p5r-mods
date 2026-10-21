@@ -6,10 +6,10 @@
 using Reloaded.Hooks.ReloadedII.Interfaces;
 using Reloaded.Mod.Interfaces;
 using Reloaded.Mod.Interfaces.Internal;
-using p5rpc.cbtrim.Template.Configuration;
-using p5rpc.cbtrim.Configuration;
+using p5rpc.performancefix.Template.Configuration;
+using p5rpc.performancefix.Configuration;
 
-namespace p5rpc.cbtrim.Template;
+namespace p5rpc.performancefix.Template;
 
 public class Startup : IMod
 {

@@ -8,10 +8,10 @@
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>p5rpc.cbtrim</RootNamespace>
-    <AssemblyName>p5rpc.cbtrim</AssemblyName>
+    <RootNamespace>p5rpc.performancefix</RootNamespace>
+    <AssemblyName>p5rpc.performancefix</AssemblyName>
     <!-- Build straight into a folder that can be copied into Reloaded-II\Mods as-is. -->
-    <OutputPath>$(MSBuildThisFileDirectory)..\dist\p5rpc.cbtrim\</OutputPath>
+    <OutputPath>$(MSBuildThisFileDirectory)..\dist\p5rpc.performancefix\</OutputPath>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
   </PropertyGroup>
 

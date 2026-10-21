@@ -1,6 +1,6 @@
-using p5rpc.cbtrim.Configuration;
+using p5rpc.performancefix.Configuration;
 
-namespace p5rpc.cbtrim.Template;
+namespace p5rpc.performancefix.Template;
 
 /// <summary>
 /// Base class for implementing mod functionality.

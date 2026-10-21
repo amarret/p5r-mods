@@ -1,8 +1,8 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using p5rpc.cbtrim.Template.Configuration;
+using p5rpc.performancefix.Template.Configuration;
 
-namespace p5rpc.cbtrim.Configuration;
+namespace p5rpc.performancefix.Configuration;
 
 public class Config : Configurable<Config>
 {

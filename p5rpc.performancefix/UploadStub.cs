@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 
-namespace p5rpc.cbtrim;
+namespace p5rpc.performancefix;
 
 /// <summary>
 /// The native routine that replaces the engine's <c>call [ctx_vtbl+180h]</c> (UpdateSubresource of a whole constant
