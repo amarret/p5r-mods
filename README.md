@@ -7,7 +7,7 @@ Persona 5 Royal. Made by Claude by reverse engineering the P5R executable, wild 
 | --- | --- | --- |
 | [Confidant Ability & Showtime Toggles](p5rpc.confidanttoggles) | 1.1.1 | An on/off switch for every confidant ability and Showtime, plus Futaba's All-Out Attack takeover. Off means the ability never takes effect, even after you unlock it; on restores it. |
 | [Quiet Navigator (Battle)](p5rpc.quietnavigator) | 1.3.0 | Silences chosen navigator battle lines (voice and dialogue window) by the event that triggers them: critical hits, knockdowns, weakness comments when analysing, Baton Passes. Per navigator. |
-| [No Sprint Blur](p5rpc.nodashblur) | 1.1.0 | Removes the radial blur and washed-out colours while sprinting; keeps the speed lines and the FOV change. |
+| [No Sprint Blur](p5rpc.nodashblur) | 1.2.0 | Removes the radial blur and washed-out colours while sprinting, and the blur while the camera swings round (recentring); keeps the speed lines and the FOV change. |
 | [Quiet Turn-Start Recovery](p5rpc.quietregen) | 1.0.0 | Silences the sound played when HP/SP is restored at the start of a turn by abilities (Regenerate, Invigorate...) or accessories. |
 | [P5R Performance Fix](p5rpc.performancefix) | 0.2.1 | Raises the frame rate in crowded places such as Shibuya station: the renderer uploads only the shader constants it filled for each draw, instead of whole 7 KB buffers. Looks the same. |
 

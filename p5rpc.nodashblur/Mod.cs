@@ -10,8 +10,8 @@ namespace p5rpc.nodashblur;
 
 /// <summary>
 /// Removes the radial blur (and the washed-out colours it causes) from the sprint effect, keeping its speed lines and
-/// the camera's FOV change, and optionally from the target-point leap. See <see cref="BlurRemover"/>.
-/// Nothing on disk or in the save is changed.
+/// the camera's FOV change; the blur the same camera effect adds while the camera swings round (recentring); and
+/// optionally the target-point leap's blur. See <see cref="BlurRemover"/>. Nothing on disk or in the save is changed.
 /// </summary>
 public unsafe class Mod : ModBase
 {
@@ -28,6 +28,16 @@ public unsafe class Mod : ModBase
 
     internal const int CameraBlurCallOffset = 49;
     internal const int CameraSpeedEffectLength = 0x642;
+
+    /// <summary>
+    /// Further down the camera speed effect, while the camera swings round: the turn blur's parameters (1.0, mode 1, white
+    /// with the opacity worked out from the turning speed) are stored, then <see cref="SubmitTurnBlurFn"/> is called at
+    /// <see cref="CameraTurnCallOffset"/>.
+    /// </summary>
+    internal const string CameraTurnCallSig =
+        "C7 45 B7 00 00 80 3F C7 45 C3 01 00 00 00 66 C7 45 C7 FF FF F3 0F 2C C0 C6 45 C9 FF 88 45 CA E8 ?? ?? ?? ??";
+
+    internal const int CameraTurnCallOffset = 31;
 
     /// <summary>Start of <see cref="DashFilterUpdateFn"/>.</summary>
     internal const string DashFilterUpdateSig =
@@ -72,7 +82,9 @@ public unsafe class Mod : ModBase
         new(BlurSource.TargetLeap, "target-point leap effect", DashFilterUpdateSig, DashBlurCallSig, DashBlurCallOffset, DashFilterUpdateLength),
     ];
     private int _scansDone;
+    private nint _turnCall;
     private IHook<SubmitRadialBlurFn>? _submitRadialBlurHook;
+    private IHook<SubmitTurnBlurFn>? _submitTurnBlurHook;
 
     public Mod(ModContext context)
     {
@@ -83,9 +95,12 @@ public unsafe class Mod : ModBase
         _configuration = context.Configuration;
         _modConfig = context.ModConfig;
 
-        _remover.FirstDrop = source => Log(source == BlurSource.Sprint
-            ? "Removed the sprint blur (shown once per session)."
-            : "Removed the target-point leap blur (shown once per session).");
+        _remover.FirstDrop = source => Log(source switch
+        {
+            BlurSource.Sprint => "Removed the sprint blur (shown once per session).",
+            BlurSource.CameraTurn => "Removed the camera-turn blur (shown once per session).",
+            _ => "Removed the target-point leap blur (shown once per session).",
+        });
         ApplyConfig(_configuration);
 
         if (_hooks == null)
@@ -126,6 +141,16 @@ public unsafe class Mod : ModBase
                 }
             });
         }
+
+        startupScanner.AddMainModuleScan(CameraTurnCallSig, result =>
+        {
+            lock (_installLock)
+            {
+                if (result.Found)
+                    _turnCall = baseAddress + result.Offset + CameraTurnCallOffset;
+                ScanDone();
+            }
+        });
     }
 
     private T? GetController<T>() where T : class =>
@@ -133,7 +158,7 @@ public unsafe class Mod : ModBase
 
     private void ScanDone()
     {
-        if (++_scansDone < _sources.Length * 2)
+        if (++_scansDone < _sources.Length * 2 + 1)
             return;
 
         // Keep the sources whose function and blur call were both found, with the call inside the function.
@@ -162,9 +187,24 @@ public unsafe class Mod : ModBase
         if (usable.Count == 0)
             return;
 
+        // The camera-turn blur is told apart by the camera speed effect running, so it needs that hook too.
+        var speedEffect = usable.FirstOrDefault(s => s.Kind == BlurSource.Sprint);
+        nint submitTurnBlur = 0;
+        if (speedEffect == null || _turnCall == 0)
+            Log("Could not find the camera-turn blur (unsupported game version, or another mod has changed it); it stays.");
+        else if (_turnCall - speedEffect.Function is var turnOffset && (turnOffset < 0 || turnOffset >= speedEffect.Length))
+            Log($"The camera-turn blur call at 0x{_turnCall:X} is not inside the camera speed effect (unsupported game version); it stays.");
+        else
+            submitTurnBlur = CallTarget(_turnCall);
+
         // Set the originals before activating, so the replacements never run without them.
         _submitRadialBlurHook = _hooks!.CreateHook<SubmitRadialBlurFn>(_remover.SubmitRadialBlur, submitRadialBlur);
         _remover.OriginalSubmitRadialBlur = _submitRadialBlurHook.OriginalFunction;
+        if (submitTurnBlur != 0)
+        {
+            _submitTurnBlurHook = _hooks.CreateHook<SubmitTurnBlurFn>(_remover.SubmitTurnBlur, submitTurnBlur);
+            _remover.OriginalSubmitTurnBlur = _submitTurnBlurHook.OriginalFunction;
+        }
         foreach (var source in usable)
         {
             if (source.Kind == BlurSource.Sprint)
@@ -182,6 +222,7 @@ public unsafe class Mod : ModBase
         }
 
         _submitRadialBlurHook.Activate();
+        _submitTurnBlurHook?.Activate();
         foreach (var source in usable)
         {
             source.Hook!.Activate();
@@ -189,6 +230,8 @@ public unsafe class Mod : ModBase
         }
 
         Log($"Hooked the radial blur at 0x{submitRadialBlur:X}.");
+        if (submitTurnBlur != 0)
+            Log($"Hooked the camera-turn blur at 0x{submitTurnBlur:X}.");
     }
 
     /// <summary>Target of the <c>call rel32</c> (E8) instruction at <paramref name="call"/>.</summary>
@@ -197,8 +240,10 @@ public unsafe class Mod : ModBase
     private void ApplyConfig(Config config)
     {
         _remover.RemoveSprint = config.RemoveSprintBlur;
+        _remover.RemoveTurn = config.RemoveTurnBlur;
         _remover.RemoveTargetLeap = config.RemoveTargetLeapBlur;
         Log($"Sprint blur: {(config.RemoveSprintBlur ? "removed" : "vanilla")}. " +
+            $"Camera-turn blur: {(config.RemoveTurnBlur ? "removed" : "vanilla")}. " +
             $"Target-point leap blur: {(config.RemoveTargetLeapBlur ? "removed" : "vanilla")}.");
     }
 
@@ -219,11 +264,13 @@ public unsafe class Mod : ModBase
         foreach (var source in _sources)
             source.Hook?.Disable();
         _submitRadialBlurHook?.Disable();
+        _submitTurnBlurHook?.Disable();
     }
 
     public override void Resume()
     {
         _submitRadialBlurHook?.Enable();
+        _submitTurnBlurHook?.Enable();
         foreach (var source in _sources)
             source.Hook?.Enable();
     }

@@ -1,11 +1,13 @@
 # No Sprint Blur (P5R PC, Reloaded-II)
 
-Removes the radial blur that covers the screen while Joker sprints, and with it the washed-out colours. The
-white speed lines and the camera's FOV change stay exactly as they are.
+Removes the radial blur that covers the screen while Joker sprints, and with it the washed-out colours, and the
+blur and colour wash while the camera swings round (as when it recentres behind Joker). The white speed lines and
+the camera's FOV change stay exactly as they are.
 
 | Switch | Default | Effect |
 | --- | --- | --- |
 | Sprinting | On | No blur, no colour wash while sprinting. Off: vanilla. |
+| Turning the camera | On | No blur, no colour wash while the camera swings round quickly, as when it recentres behind Joker. Off: vanilla. |
 | Leaping to a target point | Off | Also removes the blur of the short dash effect played when Joker leaps to a target point. Its white lines stay. |
 
 ## Install
@@ -17,8 +19,9 @@ white speed lines and the camera's FOV change stay exactly as they are.
 3. Right-click the mod → **Configure Mod** to change the switches. Changes apply straight away, even while sprinting.
 
 At start-up the Reloaded console shows `Hooked the sprint camera effect at 0x...`, `Hooked the target-point leap
-effect at 0x...` and `Hooked the radial blur at 0x...`. The first time you sprint it shows
-`Removed the sprint blur (shown once per session).`
+effect at 0x...`, `Hooked the radial blur at 0x...` and `Hooked the camera-turn blur at 0x...`. The first time you
+sprint it shows `Removed the sprint blur (shown once per session).`, and the first time the camera swings round
+`Removed the camera-turn blur (shown once per session).`
 
 ## How it works
 
@@ -28,20 +31,24 @@ effect fades in (1/3 s) and, every frame:
 1. submits one full-screen **radial blur** pass, stronger the faster the camera moves forward. It blends a stretched
    copy of the screen over the image (white, up to 75% opacity), which is what flattens the contrast and washes the
    colours out;
-2. in Palaces, queues the white speed lines, whose opacity follows the same fade.
+2. in Palaces, queues the white speed lines, whose opacity follows the same fade;
+3. while the camera turns quickly (it recentres behind Joker, for instance), submits a second screen effect, also
+   white, whose opacity follows how fast the camera turns: the blur and colour wash seen when the camera recentres.
+   It goes through its own "submit" function (post-effect command 8; the radial blur is command 0).
 
 The FOV change is done by the camera just before this effect. When you stop, the effect fades out (0.5 s).
 
-The mod hooks the camera speed effect and the game's shared "submit radial blur" function, all found by byte
-signature at start-up. A blur submitted while the speed effect is running is skipped; every other caller (battle,
-cutscenes...) is untouched. Step 2 and the FOV change still run. Nothing on disk or in the save is changed.
+The mod hooks the camera speed effect, the game's shared "submit radial blur" function and the turn effect's submit
+function, all found by byte signature at start-up. A blur submitted while the speed effect is running is skipped
+(steps 1 and 3, each with its own switch); every other caller (battle, cutscenes...) is untouched. Step 2 and the FOV
+change still run. Nothing on disk or in the save is changed.
 
 The second switch does the same for a separate field effect, `fld_dash_filter`. It plays when Joker leaps to a
 target point, and also from the `FLD_DASH_EFFECT` script command.
 
 ## Notes
 
-- Not yet tested in game.
+- v1.2.0 (the camera-turn blur) is not yet tested in game.
 - v1.0.0 only handled the target-point leap effect, which is why it did nothing while sprinting.
 - If a game update moves the code, the log says which part could not be found and that blur simply stays.
 

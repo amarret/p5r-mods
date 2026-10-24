@@ -19,26 +19,36 @@ public delegate nint CameraSpeedEffectFn(nint camera, nint unused, float frameTi
 public delegate nint DashFilterUpdateFn(nint task, float frameTime);
 
 /// <summary>
-/// SubmitRadialBlur(params): queues one radial-blur pass for this frame. Shared by every effect that blurs the screen
-/// (battle, cutscenes...); the return value is not used by its callers.
+/// SubmitRadialBlur(params): queues one radial-blur pass for this frame (post-effect command 0). Shared by every effect
+/// that blurs the screen (battle, cutscenes...); the return value is not used by its callers.
 /// </summary>
 [Function(CallingConventions.Microsoft)]
 public delegate nint SubmitRadialBlurFn(nint parameters);
 
-/// <summary>Effects whose radial blur can be removed.</summary>
+/// <summary>
+/// SubmitTurnBlur(params): queues the screen effect the camera speed effect adds while the camera swings round (post-
+/// effect command 8, 20 bytes of parameters: white, its opacity following how fast the camera turns), as when it
+/// recentres behind Joker. Only the camera speed effect calls it.
+/// </summary>
+[Function(CallingConventions.Microsoft)]
+public delegate nint SubmitTurnBlurFn(nint parameters);
+
+/// <summary>Effects whose blur can be removed.</summary>
 public enum BlurSource
 {
     None,
-    /// <summary>The field camera's speed effect while sprinting.</summary>
+    /// <summary>The field camera's speed effect: the radial blur while sprinting.</summary>
     Sprint,
     /// <summary>The dash filter played when leaping to a target point.</summary>
     TargetLeap,
+    /// <summary>The field camera's speed effect: the blur while the camera swings round (recentring).</summary>
+    CameraTurn,
 }
 
 /// <summary>
-/// Drops the radial blur submitted by chosen effects, and only by them: a blur submitted while one of their update
-/// functions is running on the same thread is skipped when that effect is switched on. The rest of each update
-/// (fades, speed lines) runs as usual.
+/// Drops the blur submitted by chosen effects, and only by them: a blur submitted while one of their update functions
+/// is running on the same thread is skipped when that effect is switched on. The rest of each update (fades, speed
+/// lines) runs as usual.
 /// </summary>
 public sealed class BlurRemover
 {
@@ -46,12 +56,15 @@ public sealed class BlurRemover
 
     private volatile bool _sprint = true;
     private volatile bool _targetLeap;
+    private volatile bool _turn = true;
     private int _droppedSprint;
     private int _droppedTargetLeap;
+    private int _droppedTurn;
 
     public CameraSpeedEffectFn? OriginalCameraSpeedEffect { get; set; }
     public DashFilterUpdateFn? OriginalDashFilterUpdate { get; set; }
     public SubmitRadialBlurFn? OriginalSubmitRadialBlur { get; set; }
+    public SubmitTurnBlurFn? OriginalSubmitTurnBlur { get; set; }
 
     /// <summary>Called the first time a blur from a source is dropped.</summary>
     public Action<BlurSource>? FirstDrop { get; set; }
@@ -68,11 +81,18 @@ public sealed class BlurRemover
         set => _targetLeap = value;
     }
 
+    public bool RemoveTurn
+    {
+        get => _turn;
+        set => _turn = value;
+    }
+
     /// <summary>Number of blur passes dropped so far for <paramref name="source"/>.</summary>
     public int Dropped(BlurSource source) => source switch
     {
         BlurSource.Sprint => Volatile.Read(ref _droppedSprint),
         BlurSource.TargetLeap => Volatile.Read(ref _droppedTargetLeap),
+        BlurSource.CameraTurn => Volatile.Read(ref _droppedTurn),
         _ => 0,
     };
 
@@ -117,6 +137,17 @@ public sealed class BlurRemover
             default:
                 return OriginalSubmitRadialBlur!(parameters);
         }
+    }
+
+    public nint SubmitTurnBlur(nint parameters)
+    {
+        if (_running == BlurSource.Sprint && _turn)
+        {
+            Drop(ref _droppedTurn, BlurSource.CameraTurn);
+            return 0;
+        }
+
+        return OriginalSubmitTurnBlur!(parameters);
     }
 
     private void Drop(ref int counter, BlurSource source)
