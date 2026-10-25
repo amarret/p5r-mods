@@ -1,0 +1,26 @@
+{
+  "ModId": "p5rpc.setpalacesecurity",
+  "ModName": "Set Palace Security Level",
+  "ModAuthor": "Zelkin",
+  "ModVersion": "1.2.1",
+  "ModDescription": "Keeps the Palace security level at a value you choose (0-100%) while you are in a Palace: being spotted, ambushes, battles and safe rooms no longer change it, and the meter always shows that level. Outside the Palaces nothing is changed.",
+  "ModDll": "p5rpc.setpalacesecurity.dll",
+  "ModIcon": "Preview.png",
+  "ModR2RManagedDll32": "x86/p5rpc.setpalacesecurity.dll",
+  "ModR2RManagedDll64": "x64/p5rpc.setpalacesecurity.dll",
+  "ModNativeDll32": "",
+  "ModNativeDll64": "",
+  "IsLibrary": false,
+  "ReleaseMetadataFileName": "p5rpc.setpalacesecurity.ReleaseMetadata.json",
+  "PluginData": {},
+  "IsUniversalMod": false,
+  "ModDependencies": [
+    "reloaded.sharedlib.hooks",
+    "Reloaded.Memory.SigScan.ReloadedII"
+  ],
+  "OptionalDependencies": [],
+  "SupportedAppId": [
+    "p5r.exe"
+  ],
+  "ProjectUrl": ""
+}
