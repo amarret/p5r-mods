@@ -2,7 +2,7 @@
   "ModId": "p5rpc.performancefix",
   "ModName": "P5R Performance Fix",
   "ModAuthor": "Zelkin",
-  "ModVersion": "0.7.2",
+  "ModVersion": "0.7.3",
   "ModDescription": "Improves the frame rate in busy places such as Shibuya station (the renderer uploads only the shader constants it filled, into small buffers), and removes the hitches when changing area: the graphics driver no longer has to find tens of MB of upload memory at once, and the game no longer waits for the old area's sounds to fade out, or for CRI's next server tick on file lookups. Fast travel starts its loading animation over the map. Looks the same.",
   "ModDll": "p5rpc.performancefix.dll",
   "ModIcon": "Preview.png",
